@@ -1,21 +1,83 @@
 ---
+// 导入类型和API，用于获取博客内容集合
 import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+// 导入内容渲染方法，用于渲染 Markdown 正文
 import { render } from 'astro:content';
+// 导入组件
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
 
+// Astro 的静态路径生成函数，决定哪些页面会被预渲染
 export async function getStaticPaths() {
-	const posts = await getCollection('blogs');
+	// 获取所有 blog collection 下的文章
+	const posts = await getCollection('blog');
+	// 为每篇文章生成一个静态路径（slug 作为参数）
 	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
+		params: { slug: post.id }, // slug 用于 URL 匹配，如 /blog/hello-world/
+		props: post, // 传递文章内容到页面 props
 	}));
 }
-type Props = CollectionEntry<'blogs'>;
 
+// 获取 Astro 自动注入的 props（即当前文章的数据）
 const post = Astro.props;
+// 渲染当前文章的 Markdown 正文，返回 Content 组件
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<BaseLayout title={post.data.title} description={post.data.description || ''}>
+  <div class="p-6">
+    <div class="bg-card rounded-xl overflow-hidden shadow-lg transition-colors duration-300">
+      <!-- 文章头图 -->
+      {post.data.heroImage && (
+        <div class="w-full h-60 md:h-80 overflow-hidden">
+          <img 
+            src={post.data.heroImage} 
+            alt="" 
+            class="w-full h-full object-cover" 
+          />
+        </div>
+      )}
+      
+      <!-- 文章内容区 -->
+      <div class="p-6 md:p-8">
+        <!-- 标题和元数据 -->
+        <div class="mb-6 pb-6 border-b border-border">
+          <h1 class="text-2xl md:text-3xl font-bold mb-3">{post.data.title}</h1>
+          <div class="flex flex-wrap gap-3 text-text-secondary text-sm">
+            <span class="flex items-center gap-1">
+              <span class="i-carbon-calendar"></span>
+              <FormattedDate date={post.data.pubDate} />
+            </span>
+            {post.data.updatedDate && (
+              <span class="flex items-center gap-1">
+                <span class="i-carbon-edit"></span>
+                更新于 <FormattedDate date={post.data.updatedDate} />
+              </span>
+            )}
+          </div>
+        </div>
+        
+        <!-- 文章正文 -->
+        <article class="prose prose-invert prose-blue max-w-none">
+          <Content />
+        </article>
+        
+        <!-- 文章底部交互区 -->
+        <div class="mt-8 pt-6 border-t border-border flex justify-between items-center">
+          <div class="flex gap-4 text-text-secondary">
+            <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200">
+              <span>👍</span> 赞赏
+            </button>
+            <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200">
+              <span>💬</span> 评论
+            </button>
+            <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200">
+              <span>🔁</span> 分享
+            </button>
+          </div>
+          <a href="/blog" class="text-accent hover:underline">返回文章列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

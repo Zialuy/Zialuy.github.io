@@ -1,0 +1,59 @@
+---
+import Sidebar from '../components/Sidebar.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import '../styles/tailwind.css';
+
+const { title, description } = Astro.props;
+---
+
+<html lang="zh-CN">
+  <head>
+    <title>{title}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <script is:inline>
+      // 立即执行主题初始化，不等待 DOMContentLoaded
+      (function() {
+        // 检查本地存储中是否有保存的主题偏好
+        const savedTheme = localStorage.getItem('theme');
+        const currentHour = new Date().getHours();
+        const isNightTime = currentHour < 6 || currentHour >= 18; // 晚上6点到早上6点是夜间
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 当前时间是晚上3点，应该是夜间模式
+        console.log('Current hour:', currentHour, 'Is night time:', isNightTime);
+        console.log('System prefers dark:', prefersDarkScheme.matches);
+        console.log('Saved theme:', savedTheme);
+        
+        let theme;
+        if (savedTheme) {
+          // 如果用户手动设置了主题，使用用户的设置
+          theme = savedTheme;
+        } else {
+          // 否则根据时间和系统偏好自动选择
+          theme = (isNightTime || prefersDarkScheme.matches) ? 'dark' : 'light';
+          localStorage.setItem('theme', theme);
+        }
+        
+        // 应用主题
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        console.log('Theme initialized to:', theme);
+      })();
+    </script>
+  </head>
+  <body class="bg-primary text-text-primary transition-colors duration-300">
+    <div class="flex min-h-screen">
+      <Sidebar />
+      <main class="flex-1 flex flex-col">
+        <slot />
+      </main>
+      <ThemeToggle />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+// 个人信息卡片组件
+const nickname = "zialu就是子路";
+const signature = "一个人如歌般向前走一生 |";
+const avatar = "/myself/夜空.jpeg";
+---
+<div class="bg-[#2d3150] rounded-2xl p-6 flex flex-col items-center shadow-lg hover:shadow-xl transition-all duration-300">
+  <div class="relative">
+    <img 
+      src={avatar} 
+      alt="头像" 
+      class="w-24 h-24 rounded-full border-4 border-[#38406e] shadow mb-4 object-cover hover:scale-105 transition-transform duration-300" 
+    />
+    <div class="absolute inset-0 rounded-full border-4 border-[#38406e] bg-blue-500 opacity-10 animate-pulse"></div>
+  </div>
+  <div class="text-xl font-bold mb-1">{nickname}</div>
+  <div class="text-[#8ca0d7] text-sm mb-2">{signature}</div>
+  <div class="flex gap-4 text-[#b4bce3] text-xs">
+    <span class="hover:text-white transition-colors duration-200">粉丝: 99</span>
+    <span class="hover:text-white transition-colors duration-200">文章: 12</span>
+    <span class="hover:text-white transition-colors duration-200">热度: 1234</span>
+  </div>
+</div>

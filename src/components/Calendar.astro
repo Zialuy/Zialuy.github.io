@@ -1,0 +1,103 @@
+---
+// 动态日历组件
+
+// 获取当前日期信息
+const now = new Date();
+const currentYear = now.getFullYear();
+const currentMonth = now.getMonth();
+const currentDate = now.getDate();
+
+// 月份名称
+const monthNames = [
+  '一月', '二月', '三月', '四月', '五月', '六月',
+  '七月', '八月', '九月', '十月', '十一月', '十二月'
+];
+
+// 生成当前月份的日历数据
+function generateCalendarDays(year: number, month: number): Array<number | null> {
+  // 当前月的第一天
+  const firstDay = new Date(year, month, 1);
+  // 当前月的最后一天
+  const lastDay = new Date(year, month + 1, 0);
+  
+  // 第一天是周几（0-6）
+  const firstDayOfWeek = firstDay.getDay();
+  // 当前月的天数
+  const daysInMonth = lastDay.getDate();
+  
+  // 初始化日历数组
+  const calendarDays: Array<number | null> = [];
+  
+  // 填充前面的空白单元格
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    calendarDays.push(null);
+  }
+  
+  // 填充当前月的天数
+  for (let i = 1; i <= daysInMonth; i++) {
+    calendarDays.push(i);
+  }
+  
+  // 计算需要的行数（每行7天）
+  const totalCells = Math.ceil((firstDayOfWeek + daysInMonth) / 7) * 7;
+  
+  // 填充后面的空白单元格
+  while (calendarDays.length < totalCells) {
+    calendarDays.push(null);
+  }
+  
+  return calendarDays;
+}
+
+const calendarDays = generateCalendarDays(currentYear, currentMonth);
+const monthYear = `${currentYear}年${monthNames[currentMonth]}`;
+
+// 将日历数组分组为每行7天
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
+const calendarWeeks = chunkArray(calendarDays, 7);
+---
+
+<div class="bg-card rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300">
+  <div class="font-bold mb-2 flex justify-between items-center">
+    <span class="text-text-primary">日历</span>
+    <span class="text-xs bg-secondary px-2 py-1 rounded-full text-text-primary">今天: {currentDate}</span>
+  </div>
+  <div class="text-text-secondary text-sm font-medium mb-2">{monthYear}</div>
+  
+  <div class="grid grid-cols-7 gap-1 text-center text-xs">
+    <div class="text-text-secondary">日</div>
+    <div class="text-text-secondary">一</div>
+    <div class="text-text-secondary">二</div>
+    <div class="text-text-secondary">三</div>
+    <div class="text-text-secondary">四</div>
+    <div class="text-text-secondary">五</div>
+    <div class="text-text-secondary">六</div>
+  </div>
+  
+  <div class="h-px w-full bg-border my-1"></div>
+  
+  <div class="grid grid-cols-7 gap-1 text-center text-xs">
+    {calendarDays.map((day) => {
+      const isToday = day === currentDate;
+      return (
+        <div class="py-1">
+          {day && (
+            <div class={isToday 
+              ? 'bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center mx-auto hover:bg-blue-600 transition-colors' 
+              : 'text-text-primary hover:bg-secondary rounded-full w-6 h-6 flex items-center justify-center mx-auto transition-colors'
+            }>
+              {day}
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>

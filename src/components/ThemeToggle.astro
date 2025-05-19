@@ -1,0 +1,35 @@
+---
+// 主题切换组件
+---
+
+<button 
+  id="theme-toggle" 
+  class="fixed bottom-4 right-4 z-50 bg-secondary dark:bg-blue-200 text-text-primary dark:text-gray-800 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+  aria-label="切换主题"
+>
+  <svg id="sun-icon" class="w-6 h-6 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+  <svg id="moon-icon" class="w-6 h-6 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+</button>
+
+<script is:inline>
+  // 主题切换逻辑
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (themeToggle) {
+      themeToggle.addEventListener('click', function() {
+        // 获取当前主题状态
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        // 切换主题
+        document.documentElement.classList.toggle('dark');
+        // 存储新的主题偏好
+        localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
+        console.log('Theme toggled to:', isDarkMode ? 'light' : 'dark');
+      });
+    }
+  });
+</script>

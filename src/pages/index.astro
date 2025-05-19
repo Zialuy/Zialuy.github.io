@@ -1,33 +1,36 @@
 ---
-import SiteLayout from '../components/SiteLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+import PostCard from '../components/PostCard.astro';
+import Calendar from '../components/Calendar.astro';
+import LinksCard from '../components/LinksCard.astro';
 ---
 
-<SiteLayout>
-  <div style="text-align:center;margin-top:3rem;">
-    <h1>👋 欢迎来到子路的博客</h1>
-    <p>这是我的个人博客，记录学习、生活和项目。</p>
-    <p>技术栈：Astro、Markdown、GitHub Pages</p>
-    <p>
-      <a href="/blogs">📚 最新文章</a> |
-      <a href="/projects">🚀 我的项目</a> |
-      <a href="/about">🙋 关于我</a>
-    </p>
+<BaseLayout title="zialu就是子路的博客空间" description="这是我的个人博客，记录学习、生活和项目">
+  <div class="flex flex-row gap-6 p-6">
+    <div class="flex-1 flex flex-col gap-6">
+      <ProfileCard />
+      <!-- 欢迎语和原有内容 -->
+      <div class="bg-card rounded-xl p-6 shadow-md mb-6 transition-colors duration-300">
+        <h1 class="text-2xl font-bold mb-2">欢迎来到子路的博客</h1>
+        <p class="mb-1">这是我的个人博客，记录学习、生活和项目。</p>
+        <p class="mb-1">技术栈：Astro、Markdown、GitHub Pages</p>
+        <p>
+          <a href="/blog" class="text-accent hover:underline">📚 最新文章</a> |
+          <a href="/projects" class="text-accent hover:underline">🚀 我的项目</a> |
+          <a href="/about" class="text-accent hover:underline">🙋 关于我</a>
+        </p>
+      </div>
+      <!-- 文章流，后续可循环渲染 PostCard -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <PostCard />
+        <PostCard />
+        <PostCard />
+      </div>
+    </div>
+    <aside class="w-80 hidden xl:flex flex-col gap-6">
+      <Calendar />
+      <LinksCard />
+    </aside>
   </div>
-  <section style="max-width:700px;margin:2rem auto;">
-    <h2>✨ 快速入口</h2>
-    <ul>
-      <li><a href="/blogs">博客文章</a></li>
-      <li><a href="/tutorials">教程</a></li>
-      <li><a href="/notes">随笔笔记</a></li>
-      <li><a href="/projects">项目展示</a></li>
-    </ul>
-  </section>
-</SiteLayout>
-
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-	</body>
-</html>
+</BaseLayout>
