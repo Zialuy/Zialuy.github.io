@@ -2,10 +2,12 @@
 // 站点基础布局组件
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
+import BaseHead from "./BaseHead.astro";
 ---
 
 <html lang="zh-CN">
   <head>
+    <BaseHead title="Astro Blog" description="个人博客，记录学习与生活" />
     <slot name="head" />
   </head>
   <body>

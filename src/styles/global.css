@@ -31,7 +31,7 @@
 	font-display: swap;
 }
 body {
-	font-family: 'Atkinson', sans-serif;
+	font-family: 'Atkinson', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
