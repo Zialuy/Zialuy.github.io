@@ -1,7 +1,14 @@
 {
-  "name": "agreeable-altitude",
+  "name": "zialuy-blog",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "子路的个人博客，基于 Astro 构建。",
+  "author": "子路",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:Zialuy/Zialuy.github.io.git"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

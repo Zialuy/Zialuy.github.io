@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://zialuy.github.io',  // 我的GitHub Pages地址
 	output: 'static',
-	base: '/Zialuy.github.io/',//仓库名
+	base: '/',  // 改为根路径
 	integrations: [mdx(), sitemap()],
-});
+  });

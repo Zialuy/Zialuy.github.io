@@ -1,0 +1,18 @@
+---
+// 站点基础布局组件
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+---
+
+<html lang="zh-CN">
+  <head>
+    <slot name="head" />
+  </head>
+  <body>
+    <Header />
+    <main style="min-height:60vh;">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
