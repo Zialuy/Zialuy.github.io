@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><title>Hello World</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="这是我的第一篇 Astro 博客文章！"><script>
+      // 立即执行主题初始化，不等待 DOMContentLoaded
+      (function() {
+        // 检查本地存储中是否有保存的主题偏好
+        const savedTheme = localStorage.getItem('theme');
+        const currentHour = new Date().getHours();
+        const isNightTime = currentHour < 6 || currentHour >= 18; // 晚上6点到早上6点是夜间
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 当前时间是晚上3点，应该是夜间模式
+        console.log('Current hour:', currentHour, 'Is night time:', isNightTime);
+        console.log('System prefers dark:', prefersDarkScheme.matches);
+        console.log('Saved theme:', savedTheme);
+        
+        let theme;
+        if (savedTheme) {
+          // 如果用户手动设置了主题，使用用户的设置
+          theme = savedTheme;
+        } else {
+          // 否则根据时间和系统偏好自动选择
+          theme = (isNightTime || prefersDarkScheme.matches) ? 'dark' : 'light';
+          localStorage.setItem('theme', theme);
+        }
+        
+        // 应用主题
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        console.log('Theme initialized to:', theme);
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.CgexCiud.css">
+<link rel="stylesheet" href="/_astro/_slug_.CCeN_LKE.css"></head> <body class="bg-primary text-text-primary transition-colors duration-300"> <div class="flex min-h-screen"> <aside class="w-16 xl:w-56 bg-primary flex flex-col items-center py-6 min-h-screen transition-colors duration-300"> <nav class="flex flex-col gap-6 w-full items-center xl:items-start"> <a href="/" class="text-text-primary flex items-center gap-2 px-4 py-2 hover:bg-card rounded-lg w-full transition-colors duration-200"><span>🏠</span><span class="hidden xl:inline">首页</span></a> <a href="/blog" class="text-text-primary flex items-center gap-2 px-4 py-2 hover:bg-card rounded-lg w-full transition-colors duration-200"><span>📚</span><span class="hidden xl:inline">博客</span></a> <a href="/notes" class="text-text-primary flex items-center gap-2 px-4 py-2 hover:bg-card rounded-lg w-full transition-colors duration-200"><span>📝</span><span class="hidden xl:inline">随笔</span></a> <a href="/projects" class="text-text-primary flex items-center gap-2 px-4 py-2 hover:bg-card rounded-lg w-full transition-colors duration-200"><span>🚀</span><span class="hidden xl:inline">项目</span></a> <a href="/about" class="text-text-primary flex items-center gap-2 px-4 py-2 hover:bg-card rounded-lg w-full transition-colors duration-200"><span>🙋</span><span class="hidden xl:inline">关于</span></a> </nav> </aside> <main class="flex-1 flex flex-col">  <div class="p-6"> <div class="bg-card rounded-xl overflow-hidden shadow-lg transition-colors duration-300"> <!-- 文章头图 -->  <!-- 文章内容区 --> <div class="p-6 md:p-8"> <!-- 标题和元数据 --> <div class="mb-6 pb-6 border-b border-border"> <h1 class="text-2xl md:text-3xl font-bold mb-3">Hello World</h1> <div class="flex flex-wrap gap-3 text-text-secondary text-sm"> <span class="flex items-center gap-1"> <span class="i-carbon-calendar"></span> <time datetime="2025-05-19T00:00:00.000Z"> May 19, 2025 </time> </span>  </div> </div> <!-- 文章正文 --> <article class="prose prose-invert prose-blue max-w-none"> <p>你好世界！这是我用 Astro 创建的第一篇博客文章！</p> </article> <!-- 文章底部交互区 --> <div class="mt-8 pt-6 border-t border-border flex justify-between items-center"> <div class="flex gap-4 text-text-secondary"> <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200"> <span>👍</span> 赞赏
+</button> <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200"> <span>💬</span> 评论
+</button> <button class="flex items-center gap-1 hover:text-accent transition-colors duration-200"> <span>🔁</span> 分享
+</button> </div> <a href="/blog" class="text-accent hover:underline">返回文章列表</a> </div> </div> </div> </div>  </main> <button id="theme-toggle" class="fixed bottom-4 right-4 z-50 bg-secondary dark:bg-blue-200 text-text-primary dark:text-gray-800 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="切换主题"> <svg id="sun-icon" class="w-6 h-6 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="w-6 h-6 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script>
+  // 主题切换逻辑
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (themeToggle) {
+      themeToggle.addEventListener('click', function() {
+        // 获取当前主题状态
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        // 切换主题
+        document.documentElement.classList.toggle('dark');
+        // 存储新的主题偏好
+        localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
+        console.log('Theme toggled to:', isDarkMode ? 'light' : 'dark');
+      });
+    }
+  });
+</script> </div> </body></html>
