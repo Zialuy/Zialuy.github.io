@@ -1,40 +1,64 @@
+# 工作流名称：部署到 GitHub Pages
 name: Deploy to GitHub Pages
 
+# 触发条件：当代码推送到 main 分支时执行
 on:
   push:
     branches: [main]
 
+# 权限设置：允许工作流写入仓库内容（用于部署）
 permissions:
   contents: write
 
+# 定义工作流中的作业
 jobs:
+  # 部署作业
   deploy:
+    # 指定运行环境为最新版 Ubuntu
     runs-on: ubuntu-latest
+    # 定义作业的步骤
     steps:
+      # 步骤1：检出代码
       - name: Checkout source
         uses: actions/checkout@v4
 
+      # 步骤2：设置 Node.js 环境
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
+          # 使用 Node.js 20 版本
           node-version: 20
 
+      # 步骤3：缓存 node_modules 以加速构建
       - name: Cache node modules
         uses: actions/cache@v4
         with:
+          # 缓存路径
           path: ~/.npm
+          # 缓存键，基于操作系统和 package-lock.json 的哈希值
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          # 如果找不到精确匹配的缓存，使用这些键尝试恢复
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # 步骤4：安装项目依赖
       - name: Install dependencies
+        # 使用 npm ci 命令进行干净安装（比 npm install 更严格、更快）
         run: npm ci
 
+      # 步骤5：构建网站
       - name: Build site
+        # 运行在 package.json 中定义的构建脚本
         run: npm run build
 
+      # 步骤6：部署到 GitHub Pages
       - name: Deploy to GitHub Pages
+        # 使用第三方 GitHub Action 进行 GitHub Pages 部署
         uses: peaceiris/actions-gh-pages@v3
         with:
+          # 使用 GitHub 自动提供的令牌进行身份验证
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 指定要发布的目录（Astro 构建输出目录）
           publish_dir: ./dist
+          # 设置自定义域名，这会自动创建 CNAME 文件
+          cname: zialu.top
