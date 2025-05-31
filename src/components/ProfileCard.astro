@@ -1,23 +1,43 @@
 ---
 // 个人信息卡片组件
 const nickname = "zialu就是子路";
-const signature = "一个人如歌般向前走一生 |";
+const signature = "一个人如歌般向前走一生";
 const avatar = "/myself/夜空.jpeg";
 ---
+<!-- 个人信息卡片组件 -->
+<!--  avatar: 头像，nickname: 昵称，signature: 签名  -->
 <div class="bg-[#2d3150] rounded-2xl p-6 flex flex-col items-center shadow-lg hover:shadow-xl transition-all duration-300">
+  <!-- 头像容器 -->
   <div class="relative">
+    <!-- 头像 -->
     <img 
       src={avatar} 
       alt="头像" 
       class="w-24 h-24 rounded-full border-4 border-[#38406e] shadow mb-4 object-cover hover:scale-105 transition-transform duration-300" 
     />
-    <div class="absolute inset-0 rounded-full border-4 border-[#38406e] bg-blue-500 opacity-10 animate-pulse"></div>
+    <!-- 头像外围动画 - 渐变旋转效果 -->
+    <div class="absolute inset-0 rounded-full border-4 border-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 opacity-20 animate-spin-slow"></div>
+    <style>
+      @keyframes spin-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+      }
+    </style>
   </div>
+  <!-- 昵称 -->
   <div class="text-xl font-bold mb-1">{nickname}</div>
+  <!-- 签名 -->
   <div class="text-[#8ca0d7] text-sm mb-2">{signature}</div>
+  <!-- 个人信息 -->
   <div class="flex gap-4 text-[#b4bce3] text-xs">
-    <span class="hover:text-white transition-colors duration-200">粉丝: 99</span>
-    <span class="hover:text-white transition-colors duration-200">文章: 12</span>
-    <span class="hover:text-white transition-colors duration-200">热度: 1234</span>
+    <!-- 粉丝 -->
+    <!-- <span class="hover:text-white transition-colors duration-200">粉丝: 99</span>-->
+    <!-- 文章 -->
+    <!--<span class="hover:text-white transition-colors duration-200">文章: 2</span>-->
+    <!-- 热度 -->
+    <!-- <span class="hover:text-white transition-colors duration-200">热度: 1234</span>-->
   </div>
 </div>
